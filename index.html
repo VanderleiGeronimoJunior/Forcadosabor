@@ -1,0 +1,2071 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Padaria &amp; Confeitaria Trigo Dourado — Cardápio Digital</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- FontAwesome 6 CDN -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            espresso: {
+              950: '#23140C',
+              900: '#3D2314',
+              800: '#5C3620',
+              700: '#7A4B2F',
+            },
+            cream: {
+              50: '#FDFBF7',
+              100: '#F5EFE6',
+              200: '#EAE0D0',
+              300: '#D8C7B0',
+            },
+            terracotta: {
+              500: '#C85A32',
+              600: '#A84420',
+              700: '#8A3517',
+              50: '#FDF3EF',
+              100: '#FAE2D8',
+            },
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background-color: #FDFBF7;
+      color: #23140C;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    h1, h2, h3, .font-serif-brand {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+
+    /* Hide scrollbar for horizontal category bar */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Custom subtle scrollbar for drawers/modals */
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #F5EFE6;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #D8C7B0;
+      border-radius: 9999px;
+    }
+
+    /* Smooth modal & drawer transitions */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes slideLeft {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.2s ease-out forwards;
+    }
+    .animate-slide-up {
+      animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .animate-slide-left {
+      animation: slideLeft 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Line clamp fallback */
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body class="bg-cream-50 text-espresso-950 antialiased selection:bg-terracotta-500 selection:text-white">
+
+  <!-- =========================================================
+       1. BANNER DE MODO DEMONSTRAÇÃO
+  ========================================================== -->
+  <div id="demo-banner" class="bg-espresso-950 text-cream-100 text-xs sm:text-sm py-2 px-4 border-b border-espresso-800">
+    <div class="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center gap-1.5 bg-amber-500/20 text-amber-300 border border-amber-400/30 px-2 py-0.5 rounded-full text-[11px] font-semibold uppercase tracking-wide">
+          <i class="fa-solid fa-flask"></i> Demo
+        </span>
+        <span class="text-cream-200">
+          <strong class="text-white">Modo Demonstração</strong> — Dados fictícios para teste
+        </span>
+      </div>
+      <button
+        id="btn-simulate-order"
+        type="button"
+        class="inline-flex items-center gap-1.5 bg-terracotta-500 hover:bg-terracotta-600 active:scale-[0.98] text-white font-semibold px-3 py-1 rounded-full text-xs transition shadow-sm cursor-pointer"
+      >
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        <span>Simular Pedido de Exemplo</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       2. CABEÇALHO DA PADARIA (HERO + CARD DE INFORMAÇÕES)
+  ========================================================== -->
+  <header class="relative">
+    <!-- Capa fotográfica artesanal -->
+    <div class="h-44 sm:h-56 w-full relative overflow-hidden bg-espresso-900">
+      <img
+        src="https://images.unsplash.com/photo-1711034695053-73943cd519d8?w=1400&q=80&auto=format&fit=crop"
+        alt="Fornada de pães artesanais da Trigo Dourado"
+        class="w-full h-full object-cover object-center opacity-55"
+        onerror="this.style.display='none'"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-espresso-950/90 via-espresso-900/45 to-espresso-950/30"></div>
+    </div>
+
+    <!-- Card principal sobreposto -->
+    <div class="max-w-5xl mx-auto px-4 -mt-20 sm:-mt-24 relative z-10 pb-4">
+      <div class="bg-white rounded-2xl shadow-lg border border-cream-200 p-4 sm:p-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="flex items-start sm:items-center gap-4">
+            <!-- Logo Artesanal SVG -->
+            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-espresso-900 border-2 border-cream-200 shadow-md flex items-center justify-center shrink-0">
+              <svg viewBox="0 0 64 64" class="w-11 h-11 sm:w-13 sm:h-13" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <circle cx="32" cy="32" r="28" stroke="#EAE0D0" stroke-width="1.5" stroke-dasharray="3 3"/>
+                <path d="M32 50V14" stroke="#EAB308" stroke-width="2.4" stroke-linecap="round"/>
+                <path d="M32 41C25 41 21 36 21 30C27 30 32 34 32 41Z" fill="#EAB308"/>
+                <path d="M32 41C39 41 43 36 43 30C37 30 32 34 32 41Z" fill="#FACC15"/>
+                <path d="M32 31C26 31 22 26 22 21C27 21 32 25 32 31Z" fill="#FACC15"/>
+                <path d="M32 31C38 31 42 26 42 21C37 21 32 25 32 31Z" fill="#EAB308"/>
+                <path d="M32 21C28 17 28 12 32 10C36 12 36 17 32 21Z" fill="#FDE047"/>
+              </svg>
+            </div>
+
+            <div>
+              <div class="flex flex-wrap items-center gap-2 mb-1">
+                <span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-800 border border-emerald-200 px-2.5 py-0.5 rounded-full text-xs font-semibold">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                  Aberto agora • Fecha às 20h
+                </span>
+                <span class="inline-flex items-center gap-1 bg-cream-100 text-espresso-800 px-2.5 py-0.5 rounded-full text-xs font-medium">
+                  <i class="fa-solid fa-star text-amber-500 text-[11px]"></i> 4,9 (340+ avaliações)
+                </span>
+              </div>
+
+              <h1 class="text-xl sm:text-3xl font-bold text-espresso-950 tracking-tight leading-tight">
+                Padaria &amp; Confeitaria Trigo Dourado
+              </h1>
+              <p class="text-xs sm:text-sm text-espresso-700 mt-1">
+                Pães de fermentação natural, folhados na manteiga e cafés especiais direto do forno.
+              </p>
+            </div>
+          </div>
+
+          <!-- Botão de Informações -->
+          <div class="flex sm:flex-col items-center sm:items-end justify-between gap-2 pt-2 sm:pt-0 border-t sm:border-t-0 border-cream-200">
+            <button
+              id="btn-open-info"
+              type="button"
+              class="inline-flex items-center gap-2 bg-cream-100 hover:bg-cream-200 text-espresso-900 font-semibold px-3.5 py-2 rounded-xl text-xs sm:text-sm transition cursor-pointer"
+            >
+              <i class="fa-solid fa-circle-info text-terracotta-500"></i>
+              <span>Informações da Loja</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Barra rápida de entrega/retirada -->
+        <div class="mt-4 pt-3 border-t border-cream-200 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs sm:text-sm text-espresso-800">
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-motorcycle text-terracotta-500"></i>
+            <span>Entrega: <strong>30–45 min</strong></span>
+          </div>
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-bag-shopping text-terracotta-500"></i>
+            <span>Retirada no balcão: <strong>15 min (Grátis)</strong></span>
+          </div>
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-tag text-terracotta-500"></i>
+            <span>Taxa fixa delivery: <strong>R$ 6,00</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       3. BUSCA E NAVEGAÇÃO POR CATEGORIAS (STICKY)
+  ========================================================== -->
+  <nav id="sticky-nav" class="sticky top-0 z-30 bg-cream-50/95 backdrop-blur-md border-b border-cream-200 shadow-xs">
+    <div class="max-w-5xl mx-auto px-4 pt-3 pb-2.5 space-y-3">
+      <!-- Barra de pesquisa em tempo real -->
+      <div class="relative">
+        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-espresso-700/60 text-sm"></i>
+        <input
+          id="search-input"
+          type="search"
+          placeholder="Buscar pão francês, croissant, coxinha, cappuccino..."
+          aria-label="Buscar itens no cardápio"
+          class="w-full bg-white border border-cream-300 focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-500/20 rounded-xl pl-10 pr-10 py-2.5 text-sm text-espresso-950 placeholder:text-espresso-700/50 outline-none transition"
+        />
+        <button
+          id="btn-clear-search"
+          type="button"
+          aria-label="Limpar busca"
+          class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-espresso-700/60 hover:text-espresso-950 p-1 cursor-pointer"
+        >
+          <i class="fa-solid fa-circle-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Menu horizontal de categorias -->
+      <div id="category-tabs" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-0.5">
+        <!-- Renderizado dinamicamente via JS -->
+      </div>
+    </div>
+  </nav>
+
+  <!-- =========================================================
+       4. CATÁLOGO DEMONSTRATIVO RICO
+  ========================================================== -->
+  <main class="max-w-5xl mx-auto px-4 py-6 pb-32">
+    <!-- Status de busca ativa -->
+    <div id="search-status" class="hidden mb-5 flex items-center justify-between bg-terracotta-50 border border-terracotta-100 rounded-xl px-4 py-2.5 text-sm text-espresso-900">
+      <span id="search-status-text"></span>
+      <button id="btn-reset-search-banner" type="button" class="text-terracotta-600 font-semibold hover:underline cursor-pointer">
+        Limpar filtro
+      </button>
+    </div>
+
+    <!-- Container das categorias e produtos -->
+    <div id="catalog-container" class="space-y-10">
+      <!-- Renderizado dinamicamente via JS -->
+    </div>
+
+    <!-- Estado vazio na busca -->
+    <div id="empty-search-state" class="hidden text-center py-14 px-4 bg-white rounded-2xl border border-cream-200">
+      <div class="w-16 h-16 rounded-full bg-cream-100 text-terracotta-500 flex items-center justify-center mx-auto mb-3 text-2xl">
+        <i class="fa-solid fa-bread-slice"></i>
+      </div>
+      <h3 class="text-lg font-bold text-espresso-950">Nenhum item encontrado</h3>
+      <p class="text-sm text-espresso-700 mt-1 max-w-sm mx-auto">
+        Não encontramos nada com esse termo no nosso cardápio de hoje. Tente buscar por "croissant", "café" ou "pão".
+      </p>
+      <button
+        id="btn-empty-reset"
+        type="button"
+        class="mt-4 inline-flex items-center gap-2 bg-terracotta-500 hover:bg-terracotta-600 text-white font-semibold px-4 py-2 rounded-xl text-sm transition cursor-pointer"
+      >
+        Ver todo o cardápio
+      </button>
+    </div>
+  </main>
+
+  <!-- Rodapé discreto -->
+  <footer class="border-t border-cream-200 bg-cream-100/60 py-8 px-4 pb-28 text-center text-xs text-espresso-700">
+    <div class="max-w-5xl mx-auto space-y-1.5">
+      <p class="font-serif-brand text-base font-bold text-espresso-900">Padaria &amp; Confeitaria Trigo Dourado</p>
+      <p>Rua das Acácias, 482 — Jardim Paulista • Atendimento diário das 06h30 às 20h00</p>
+      <p class="text-espresso-700/75 pt-1">Cardápio Digital Interativo (Modo Demonstração) • Desenvolvido com HTML5, Tailwind CSS e Vanilla JS</p>
+    </div>
+  </footer>
+
+  <!-- =========================================================
+       6A. BARRA INFERIOR FIXA DO CARRINHO
+  ========================================================== -->
+  <div id="floating-cart-bar" class="fixed bottom-0 left-0 right-0 z-30 p-3 sm:p-4 pointer-events-none translate-y-full transition-transform duration-300">
+    <div class="max-w-5xl mx-auto pointer-events-auto">
+      <button
+        id="btn-open-cart"
+        type="button"
+        class="w-full bg-espresso-900 hover:bg-espresso-950 active:scale-[0.99] text-white rounded-2xl shadow-2xl border border-espresso-800 px-4 sm:px-6 py-3.5 flex items-center justify-between transition cursor-pointer"
+      >
+        <div class="flex items-center gap-3">
+          <div class="relative bg-terracotta-500 w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-basket-shopping text-white"></i>
+            <span
+              id="cart-bar-count"
+              class="absolute -top-1.5 -right-1.5 bg-white text-espresso-950 text-[11px] font-bold w-5 h-5 rounded-full flex items-center justify-center shadow"
+            >0</span>
+          </div>
+          <div class="text-left">
+            <p class="text-xs text-cream-200 leading-none mb-1">Ver meu pedido</p>
+            <p id="cart-bar-items-label" class="text-sm font-semibold text-white leading-none">0 itens na sacola</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2.5">
+          <div class="text-right">
+            <span class="block text-[11px] text-cream-300 leading-none mb-0.5">Subtotal</span>
+            <span id="cart-bar-total" class="text-base sm:text-lg font-bold text-white leading-none">R$ 0,00</span>
+          </div>
+          <i class="fa-solid fa-chevron-right text-terracotta-500 text-sm"></i>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       5. MODAL DE DETALHES DO PRODUTO
+  ========================================================== -->
+  <div id="product-modal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="modal-product-title">
+    <div id="product-modal-backdrop" class="absolute inset-0 bg-espresso-950/65 backdrop-blur-xs animate-fade-in"></div>
+
+    <div class="relative min-h-full flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
+      <div class="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden pointer-events-auto animate-slide-up max-h-[92vh] flex flex-col">
+        <!-- Imagem do produto -->
+        <div class="relative h-56 sm:h-64 bg-cream-100 shrink-0">
+          <img id="modal-product-img" src="" alt="" class="w-full h-full object-cover" />
+          <button
+            id="btn-close-product-modal"
+            type="button"
+            aria-label="Fechar detalhes do produto"
+            class="absolute top-3.5 right-3.5 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-espresso-950 shadow-md flex items-center justify-center transition cursor-pointer"
+          >
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+          <div id="modal-product-tags" class="absolute bottom-3 left-3 flex flex-wrap gap-1.5"></div>
+        </div>
+
+        <!-- Conteúdo rolável -->
+        <div class="p-5 overflow-y-auto custom-scroll space-y-5 flex-1">
+          <div>
+            <p id="modal-product-category" class="text-xs font-semibold uppercase tracking-wider text-terracotta-600 mb-1"></p>
+            <div class="flex items-start justify-between gap-3">
+              <h2 id="modal-product-title" class="text-xl sm:text-2xl font-bold text-espresso-950 leading-snug"></h2>
+              <span id="modal-product-base-price" class="text-lg font-bold text-espresso-900 shrink-0"></span>
+            </div>
+            <p id="modal-product-desc" class="text-sm text-espresso-700 mt-2 leading-relaxed"></p>
+          </div>
+
+          <!-- Adicionais / Personalizações -->
+          <div id="modal-addons-section" class="space-y-2.5">
+            <div class="flex items-center justify-between">
+              <h3 class="font-sans text-sm font-bold text-espresso-950">Adicionais e Preferências</h3>
+              <span class="text-[11px] font-medium bg-cream-100 text-espresso-800 px-2 py-0.5 rounded-full">Opcional</span>
+            </div>
+            <div id="modal-addons-list" class="space-y-2">
+              <!-- Checkboxes inseridos dinamicamente -->
+            </div>
+          </div>
+
+          <!-- Campo de Observações -->
+          <div class="space-y-1.5">
+            <label for="modal-product-obs" class="block text-sm font-bold text-espresso-950">
+              Alguma observação?
+            </label>
+            <textarea
+              id="modal-product-obs"
+              rows="2"
+              maxlength="160"
+              placeholder='Ex: "Pão bem moreninho", "Sem açúcar", "Cortar ao meio"...'
+              class="w-full bg-cream-50 border border-cream-300 focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-500/20 rounded-xl p-3 text-sm text-espresso-950 placeholder:text-espresso-700/50 outline-none resize-none transition"
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Rodapé fixo do modal: quantidade + adicionar -->
+        <div class="p-4 sm:p-5 bg-cream-50 border-t border-cream-200 flex items-center gap-3 shrink-0">
+          <div class="flex items-center bg-white border border-cream-300 rounded-xl h-12 px-1">
+            <button
+              id="modal-qty-minus"
+              type="button"
+              aria-label="Diminuir quantidade"
+              class="w-9 h-10 flex items-center justify-center text-espresso-800 hover:text-terracotta-600 font-bold cursor-pointer"
+            >
+              <i class="fa-solid fa-minus text-xs"></i>
+            </button>
+            <span id="modal-qty-value" class="w-8 text-center font-bold text-espresso-950 text-sm">1</span>
+            <button
+              id="modal-qty-plus"
+              type="button"
+              aria-label="Aumentar quantidade"
+              class="w-9 h-10 flex items-center justify-center text-espresso-800 hover:text-terracotta-600 font-bold cursor-pointer"
+            >
+              <i class="fa-solid fa-plus text-xs"></i>
+            </button>
+          </div>
+
+          <button
+            id="btn-add-to-cart"
+            type="button"
+            class="flex-1 h-12 bg-terracotta-500 hover:bg-terracotta-600 active:scale-[0.99] text-white font-bold rounded-xl px-4 flex items-center justify-between text-sm sm:text-base transition shadow-md cursor-pointer"
+          >
+            <span>Adicionar ao Pedido</span>
+            <span id="modal-total-btn-price">R$ 0,00</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       6B. GAVETA LATERAL (DRAWER) DO CARRINHO & CHECKOUT
+  ========================================================== -->
+  <div id="cart-drawer" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true" aria-label="Sacola de pedidos">
+    <div id="cart-drawer-backdrop" class="absolute inset-0 bg-espresso-950/65 backdrop-blur-xs animate-fade-in"></div>
+
+    <div class="relative h-full flex justify-end pointer-events-none">
+      <div class="bg-cream-50 w-full max-w-md h-full shadow-2xl pointer-events-auto animate-slide-left flex flex-col">
+        <!-- Cabeçalho do Drawer -->
+        <div class="bg-white px-5 py-4 border-b border-cream-200 flex items-center justify-between shrink-0">
+          <div class="flex items-center gap-2.5">
+            <i class="fa-solid fa-basket-shopping text-terracotta-500 text-lg"></i>
+            <h2 class="text-xl font-bold text-espresso-950">Seu Pedido</h2>
+          </div>
+          <div class="flex items-center gap-2">
+            <button
+              id="btn-clear-cart"
+              type="button"
+              class="text-xs font-semibold text-espresso-700 hover:text-red-600 px-2 py-1 rounded-lg hover:bg-red-50 transition cursor-pointer"
+            >
+              Limpar
+            </button>
+            <button
+              id="btn-close-cart"
+              type="button"
+              aria-label="Fechar sacola"
+              class="w-9 h-9 rounded-full bg-cream-100 hover:bg-cream-200 text-espresso-950 flex items-center justify-center transition cursor-pointer"
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Corpo rolável do Drawer -->
+        <div class="flex-1 overflow-y-auto custom-scroll p-4 sm:p-5 space-y-6">
+          <!-- Estado de carrinho vazio -->
+          <div id="cart-empty-state" class="hidden text-center py-12 px-4">
+            <div class="w-16 h-16 rounded-full bg-cream-200/70 text-espresso-700 flex items-center justify-center mx-auto mb-3 text-2xl">
+              <i class="fa-solid fa-mug-hot"></i>
+            </div>
+            <h3 class="text-lg font-bold text-espresso-950">Sua sacola está vazia</h3>
+            <p class="text-sm text-espresso-700 mt-1">
+              Adicione pães quentinhos, doces ou cafés do cardápio para montar seu pedido.
+            </p>
+          </div>
+
+          <!-- Lista de itens do carrinho -->
+          <div id="cart-items-section" class="space-y-3">
+            <!-- Itens renderizados via JS -->
+          </div>
+
+          <!-- Formulário de entrega e pagamento -->
+          <div id="cart-checkout-form" class="space-y-5">
+            <!-- Modalidade: Entrega ou Retirada -->
+            <div class="bg-white rounded-2xl border border-cream-200 p-4 space-y-3">
+              <h3 class="font-sans text-sm font-bold text-espresso-950 flex items-center gap-2">
+                <i class="fa-solid fa-truck-fast text-terracotta-500"></i> Como deseja receber?
+              </h3>
+              <div class="grid grid-cols-2 gap-2.5">
+                <button
+                  type="button"
+                  data-delivery-mode="delivery"
+                  class="delivery-mode-btn flex flex-col items-start p-3 rounded-xl border-2 text-left transition cursor-pointer"
+                >
+                  <span class="text-sm font-bold flex items-center gap-1.5">
+                    <i class="fa-solid fa-motorcycle"></i> Entrega
+                  </span>
+                  <span class="text-[11px] opacity-80 mt-0.5">Taxa fixa: R$ 6,00</span>
+                </button>
+                <button
+                  type="button"
+                  data-delivery-mode="pickup"
+                  class="delivery-mode-btn flex flex-col items-start p-3 rounded-xl border-2 text-left transition cursor-pointer"
+                >
+                  <span class="text-sm font-bold flex items-center gap-1.5">
+                    <i class="fa-solid fa-store"></i> Retirada
+                  </span>
+                  <span class="text-[11px] opacity-80 mt-0.5">No balcão • Grátis</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Seus Dados -->
+            <div class="bg-white rounded-2xl border border-cream-200 p-4 space-y-3">
+              <h3 class="font-sans text-sm font-bold text-espresso-950 flex items-center gap-2">
+                <i class="fa-solid fa-user text-terracotta-500"></i> Seus Dados
+              </h3>
+              <div>
+                <label for="customer-name" class="block text-xs font-semibold text-espresso-800 mb-1">
+                  Nome completo *
+                </label>
+                <input
+                  id="customer-name"
+                  type="text"
+                  placeholder="Ex: Maria Clara Oliveira"
+                  class="w-full bg-cream-50 border border-cream-300 focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-500/20 rounded-xl px-3.5 py-2.5 text-sm outline-none transition"
+                />
+              </div>
+
+              <div id="address-field-wrapper">
+                <label for="customer-address" class="block text-xs font-semibold text-espresso-800 mb-1">
+                  Endereço completo para entrega *
+                </label>
+                <input
+                  id="customer-address"
+                  type="text"
+                  placeholder="Rua, número, complemento e bairro"
+                  class="w-full bg-cream-50 border border-cream-300 focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-500/20 rounded-xl px-3.5 py-2.5 text-sm outline-none transition"
+                />
+              </div>
+            </div>
+
+            <!-- Forma de Pagamento -->
+            <div class="bg-white rounded-2xl border border-cream-200 p-4 space-y-3">
+              <h3 class="font-sans text-sm font-bold text-espresso-950 flex items-center gap-2">
+                <i class="fa-solid fa-wallet text-terracotta-500"></i> Forma de Pagamento
+              </h3>
+              <div class="grid grid-cols-3 gap-2">
+                <button
+                  type="button"
+                  data-payment="Pix"
+                  class="payment-btn py-2.5 px-2 rounded-xl border-2 text-xs font-bold flex flex-col items-center gap-1 transition cursor-pointer"
+                >
+                  <i class="fa-brands fa-pix text-base"></i>
+                  <span>Pix</span>
+                </button>
+                <button
+                  type="button"
+                  data-payment="Cartão"
+                  class="payment-btn py-2.5 px-2 rounded-xl border-2 text-xs font-bold flex flex-col items-center gap-1 transition cursor-pointer"
+                >
+                  <i class="fa-regular fa-credit-card text-base"></i>
+                  <span>Cartão</span>
+                </button>
+                <button
+                  type="button"
+                  data-payment="Dinheiro"
+                  class="payment-btn py-2.5 px-2 rounded-xl border-2 text-xs font-bold flex flex-col items-center gap-1 transition cursor-pointer"
+                >
+                  <i class="fa-solid fa-money-bill-wave text-base"></i>
+                  <span>Dinheiro</span>
+                </button>
+              </div>
+
+              <div id="cash-change-wrapper" class="hidden pt-1">
+                <label for="cash-change" class="block text-xs font-semibold text-espresso-800 mb-1">
+                  Precisa de troco para quanto? (Opcional)
+                </label>
+                <input
+                  id="cash-change"
+                  type="text"
+                  placeholder="Ex: Troco para R$ 100,00"
+                  class="w-full bg-cream-50 border border-cream-300 focus:border-terracotta-500 rounded-xl px-3.5 py-2 text-sm outline-none transition"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rodapé do Drawer: Resumo e Botão WhatsApp -->
+        <div id="cart-drawer-footer" class="bg-white border-t border-cream-200 p-4 sm:p-5 space-y-3 shrink-0">
+          <div class="space-y-1.5 text-sm">
+            <div class="flex justify-between text-espresso-700">
+              <span>Subtotal dos itens</span>
+              <span id="drawer-subtotal">R$ 0,00</span>
+            </div>
+            <div class="flex justify-between text-espresso-700">
+              <span id="drawer-fee-label">Taxa de entrega</span>
+              <span id="drawer-fee-value">R$ 6,00</span>
+            </div>
+            <div class="flex justify-between text-base font-bold text-espresso-950 pt-1.5 border-t border-cream-200">
+              <span>Total do Pedido</span>
+              <span id="drawer-total" class="text-terracotta-600 text-lg">R$ 0,00</span>
+            </div>
+          </div>
+
+          <button
+            id="btn-finish-whatsapp"
+            type="button"
+            class="w-full bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold py-3.5 px-4 rounded-xl flex items-center justify-center gap-2.5 shadow-lg transition cursor-pointer"
+          >
+            <i class="fa-brands fa-whatsapp text-xl"></i>
+            <span>Finalizar Pedido no WhatsApp</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL DE INFORMAÇÕES DA PADARIA
+  ========================================================== -->
+  <div id="info-modal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
+    <div id="info-modal-backdrop" class="absolute inset-0 bg-espresso-950/65 backdrop-blur-xs animate-fade-in"></div>
+    <div class="relative min-h-full flex items-center justify-center p-4 pointer-events-none">
+      <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden pointer-events-auto animate-slide-up">
+        <div class="bg-espresso-900 text-white p-5 flex items-center justify-between">
+          <div>
+            <p class="text-xs text-cream-300 uppercase tracking-wider font-semibold">Sobre a Padaria</p>
+            <h2 id="info-modal-title" class="text-xl font-bold mt-0.5">Trigo Dourado</h2>
+          </div>
+          <button
+            id="btn-close-info"
+            type="button"
+            aria-label="Fechar informações"
+            class="w-8 h-8 rounded-full bg-white/15 hover:bg-white/25 flex items-center justify-center transition cursor-pointer"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="p-5 space-y-4 text-sm text-espresso-800">
+          <div class="flex items-start gap-3">
+            <div class="w-9 h-9 rounded-xl bg-terracotta-50 text-terracotta-500 flex items-center justify-center shrink-0">
+              <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <div>
+              <p class="font-bold text-espresso-950">Endereço</p>
+              <p>Rua das Acácias, 482 — Jardim Paulista<br />São Paulo/SP • CEP 01420-000 (Fictício)</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <div class="w-9 h-9 rounded-xl bg-terracotta-50 text-terracotta-500 flex items-center justify-center shrink-0">
+              <i class="fa-regular fa-clock"></i>
+            </div>
+            <div>
+              <p class="font-bold text-espresso-950">Horário de Funcionamento</p>
+              <p>Segunda a Sábado: 06h30 às 20h00<br />Domingos e Feriados: 07h00 às 18h00</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <div class="w-9 h-9 rounded-xl bg-terracotta-50 text-terracotta-500 flex items-center justify-center shrink-0">
+              <i class="fa-solid fa-phone"></i>
+            </div>
+            <div>
+              <p class="font-bold text-espresso-950">Contato &amp; Encomendas</p>
+              <p>(11) 99999-8888 • contato@trigodourado.demo</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <div class="w-9 h-9 rounded-xl bg-terracotta-50 text-terracotta-500 flex items-center justify-center shrink-0">
+              <i class="fa-solid fa-credit-card"></i>
+            </div>
+            <div>
+              <p class="font-bold text-espresso-950">Pagamentos Aceitos</p>
+              <p>Pix, Cartões de Crédito/Débito, Vale-Refeição e Dinheiro.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="px-5 pb-5">
+          <button
+            id="btn-close-info-footer"
+            type="button"
+            class="w-full bg-cream-100 hover:bg-cream-200 text-espresso-950 font-bold py-2.5 rounded-xl transition cursor-pointer"
+          >
+            Entendi
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL DE RESUMO / SIMULAÇÃO DE ENVIO NO WHATSAPP
+  ========================================================== -->
+  <div id="whatsapp-modal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="wa-modal-title">
+    <div id="whatsapp-modal-backdrop" class="absolute inset-0 bg-espresso-950/70 backdrop-blur-xs animate-fade-in"></div>
+    <div class="relative min-h-full flex items-center justify-center p-4 pointer-events-none">
+      <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden pointer-events-auto animate-slide-up">
+        <!-- Visão de prévia da mensagem -->
+        <div id="wa-preview-view">
+          <div class="bg-emerald-700 text-white p-5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center text-xl">
+                <i class="fa-brands fa-whatsapp"></i>
+              </div>
+              <div>
+                <h2 id="wa-modal-title" class="text-lg font-bold leading-tight">Pedido Pronto para Envio!</h2>
+                <p class="text-xs text-emerald-100">Prévia da mensagem gerada automaticamente</p>
+              </div>
+            </div>
+            <button
+              id="btn-close-wa-modal"
+              type="button"
+              aria-label="Fechar prévia do WhatsApp"
+              class="w-8 h-8 rounded-full bg-white/15 hover:bg-white/25 flex items-center justify-center transition cursor-pointer"
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <div class="p-5 space-y-4">
+            <!-- Balão estilo WhatsApp -->
+            <div class="bg-[#EFEAE2] p-3.5 rounded-2xl border border-stone-200 max-h-64 overflow-y-auto custom-scroll">
+              <div class="bg-[#D9FDD3] text-stone-900 rounded-xl p-3 text-xs leading-relaxed whitespace-pre-wrap shadow-xs font-sans" id="wa-message-preview"></div>
+            </div>
+
+            <div class="space-y-2.5">
+              <a
+                id="wa-external-link"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition shadow-md"
+              >
+                <i class="fa-brands fa-whatsapp text-lg"></i>
+                <span>Abrir Conversa no WhatsApp (wa.me)</span>
+              </a>
+
+              <button
+                id="btn-simulate-sent"
+                type="button"
+                class="w-full bg-espresso-900 hover:bg-espresso-950 text-white font-semibold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 text-sm transition cursor-pointer"
+              >
+                <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                <span>Simular Envio Concluído (Demo)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visão de confirmação simulada -->
+        <div id="wa-success-view" class="hidden p-7 text-center space-y-4">
+          <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto text-3xl">
+            <i class="fa-solid fa-check"></i>
+          </div>
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-terracotta-600">Pedido #TD-4829 Simulado</span>
+            <h3 class="text-2xl font-bold text-espresso-950 mt-1">Recebemos seu pedido!</h3>
+            <p class="text-sm text-espresso-700 mt-2">
+              Em um ambiente real, sua mensagem já teria chegado ao balcão da <strong>Trigo Dourado</strong> e nossa cozinha já estaria separando sua fornada.
+            </p>
+          </div>
+          <button
+            id="btn-finish-demo-reset"
+            type="button"
+            class="w-full bg-terracotta-500 hover:bg-terracotta-600 text-white font-bold py-3 rounded-xl transition cursor-pointer"
+          >
+            Voltar ao Cardápio
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast de Notificação -->
+  <div id="toast-container" class="fixed top-4 right-4 z-[60] flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- =========================================================
+       JAVASCRIPT PURO (VANILLA JS)
+  ========================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      // =========================================================
+      // CONFIGURAÇÕES E DADOS DO CATÁLOGO
+      // =========================================================
+      const WHATSAPP_NUMBER = '5511999998888';
+      const DELIVERY_FEE = 6.00;
+      const FALLBACK_IMG =
+        'data:image/svg+xml;utf8,' +
+        encodeURIComponent(
+          '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">' +
+          '<rect width="400" height="300" fill="#F5EFE6"/>' +
+          '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#7A4B2F" font-family="Georgia,serif" font-size="22">Trigo Dourado</text>' +
+          '</svg>'
+        );
+
+      const CATEGORIES = [
+        { id: 'paes', name: 'Fornada Quentinha', shortName: 'Pães', icon: 'fa-solid fa-bread-slice' },
+        { id: 'doces', name: 'Confeitaria & Doces', shortName: 'Doces', icon: 'fa-solid fa-cake-candles' },
+        { id: 'salgados', name: 'Salgados & Lanches', shortName: 'Salgados', icon: 'fa-solid fa-burger' },
+        { id: 'cafes', name: 'Cafés & Bebidas', shortName: 'Cafés', icon: 'fa-solid fa-mug-hot' },
+        { id: 'kits', name: 'Kits Café da Manhã', shortName: 'Kits', icon: 'fa-solid fa-gift' },
+      ];
+
+      const PRODUCTS = [
+        // 1. FORNADA QUENTINHA (PÃES)
+        {
+          id: 'pao-frances-chapa',
+          categoryId: 'paes',
+          name: 'Pão Francês na Chapa',
+          description: 'Clássico pão francês crocante tostado na chapa com generosa camada de manteiga da fazenda derretida.',
+          price: 8.50,
+          image: 'https://images.unsplash.com/photo-1768203628014-6a022c34d005?w=600&q=80&auto=format&fit=crop',
+          tags: ['Mais pedido', 'Saiu do forno'],
+          addons: [
+            { id: 'requeijao', name: 'Adicionar requeijão cremoso na chapa', price: 3.00 },
+            { id: 'queijo-prato', name: 'Fatia de queijo prato derretido', price: 4.00 },
+            { id: 'moreninho', name: 'Pão bem moreninho e crocante', price: 0 },
+          ],
+        },
+        {
+          id: 'sourdough-rustico',
+          categoryId: 'paes',
+          name: 'Sourdough Rústico (600g)',
+          description: 'Fermentação natural lenta de 36 horas com levain da casa, casca caramelizada e miolo macio e alveolado.',
+          price: 28.00,
+          image: 'https://images.unsplash.com/photo-1778472459221-0df20e520241?w=600&q=80&auto=format&fit=crop',
+          tags: ['Vegano', 'Artesanal'],
+          addons: [
+            { id: 'fatiado', name: 'Enviar fatiado em fatias médias', price: 0 },
+            { id: 'manteiga-ervas', name: 'Pote de manteiga com ervas (60g)', price: 5.50 },
+          ],
+        },
+        {
+          id: 'baguete-francesa',
+          categoryId: 'paes',
+          name: 'Baguete Tradicional Francesa',
+          description: 'Massa leve de farinha francesa com crosta dourada estaladiça, perfeita para tábuas de queijos e bruschettas.',
+          price: 14.90,
+          image: 'https://images.unsplash.com/photo-1753012248018-64d0a37c509f?w=600&q=80&auto=format&fit=crop',
+          tags: ['Vegano', 'Saiu do forno'],
+          addons: [
+            { id: 'cortar-meio', name: 'Cortar ao meio longitudinalmente', price: 0 },
+            { id: 'pesto', name: 'Acompanha potinho de pesto artesanal', price: 6.00 },
+          ],
+        },
+        {
+          id: 'brioche-amanteigado',
+          categoryId: 'paes',
+          name: 'Pão Brioche Amanteigado',
+          description: 'Receita francesa ultra macia feita com manteiga extra e ovos caipiras, leve toque adocicado e aroma irresistível.',
+          price: 24.00,
+          image: 'https://images.unsplash.com/photo-1743324654145-ea0bf8ded323?w=600&q=80&auto=format&fit=crop',
+          tags: ['Artesanal'],
+          addons: [
+            { id: 'geleia-morango', name: 'Geleia artesanal de morango (50g)', price: 4.50 },
+            { id: 'fatiado', name: 'Enviar fatiado', price: 0 },
+          ],
+        },
+
+        // 2. CONFEITARIA & DOCES
+        {
+          id: 'croissant-amendoas',
+          categoryId: 'doces',
+          name: 'Croissant de Amêndoas',
+          description: 'Massa folhada 27 camadas na manteiga francesa, recheada com creme frangipane e coberta com lâminas de amêndoas tostadas.',
+          price: 18.90,
+          image: 'https://images.unsplash.com/photo-1748632637044-9af83a34c35d?w=600&q=80&auto=format&fit=crop',
+          tags: ['Mais pedido', 'Artesanal'],
+          addons: [
+            { id: 'aquecer', name: 'Enviar levemente aquecido', price: 0 },
+            { id: 'calda-choc', name: 'Potinho de ganache meio amargo', price: 4.50 },
+          ],
+        },
+        {
+          id: 'torta-ganache-frutas',
+          categoryId: 'doces',
+          name: 'Torta Ganache & Framboesa',
+          description: 'Fatia generosa de massa amanteigada de cacau, ganache sedosa de chocolate belga 54%, chantilly fresco e framboesas.',
+          price: 22.50,
+          image: 'https://images.unsplash.com/photo-1771415662513-5f2ba29cf452?w=600&q=80&auto=format&fit=crop',
+          tags: ['Mais pedido'],
+          addons: [
+            { id: 'vela', name: 'Incluir velinha de aniversário', price: 2.00 },
+            { id: 'talher', name: 'Enviar garfo e guardanapo extra', price: 0 },
+          ],
+        },
+        {
+          id: 'bolo-pistache-chocolate',
+          categoryId: 'doces',
+          name: 'Fatia Bolo Pistache & Cacau',
+          description: 'Camadas fofas intercaladas com brigadeiro cremoso de pistache iraniano e cobertura intensa de chocolate.',
+          price: 21.00,
+          image: 'https://images.unsplash.com/photo-1776267067895-3047149a69cf?w=600&q=80&auto=format&fit=crop',
+          tags: ['Artesanal'],
+          addons: [
+            { id: 'pistache-extra', name: 'Crocante extra de pistache', price: 4.00 },
+          ],
+        },
+        {
+          id: 'sonho-baunilha',
+          categoryId: 'doces',
+          name: 'Sonho de Creme de Baunilha',
+          description: 'Massa leve e aerada, polvilhada com açúcar e canela, recheada na hora com creme pâtissier de fava de baunilha.',
+          price: 13.50,
+          image: 'https://images.unsplash.com/photo-1617859047277-9f47d2bd9696?w=600&q=80&auto=format&fit=crop',
+          tags: ['Saiu do forno'],
+          addons: [
+            { id: 'doce-leite', name: 'Trocar recheio para Doce de Leite', price: 0 },
+            { id: 'sem-canela', name: 'Polvilhar apenas açúcar (sem canela)', price: 0 },
+          ],
+        },
+
+        // 3. SALGADOS & LANCHES
+        {
+          id: 'coxinha-catupiry',
+          categoryId: 'salgados',
+          name: 'Coxinha de Frango com Catupiry',
+          description: 'Massa dourada e sequinha de batata com recheio bem temperado de frango desfiado e legítimo Catupiry cremoso.',
+          price: 12.90,
+          image: 'https://images.unsplash.com/photo-1559329374-a792174e7a1e?w=600&q=80&auto=format&fit=crop',
+          tags: ['Mais pedido', 'Saiu do forno'],
+          addons: [
+            { id: 'pimenta', name: 'Sachê de molho de pimenta da casa', price: 0 },
+            { id: 'requeijao-extra', name: 'Copinho extra de Catupiry (30g)', price: 3.50 },
+          ],
+        },
+        {
+          id: 'misto-quente-brioche',
+          categoryId: 'salgados',
+          name: 'Misto Quente no Brioche',
+          description: 'Presunto cozido fatiado fino e dupla camada de muçarela e queijo prato derretidos no nosso pão brioche tostado.',
+          price: 19.50,
+          image: 'https://images.unsplash.com/photo-1641848421637-713a3eb9c6cc?w=600&q=80&auto=format&fit=crop',
+          tags: ['Saiu do forno'],
+          addons: [
+            { id: 'requeijao', name: 'Adicionar requeijão cremoso', price: 3.00 },
+            { id: 'oregano', name: 'Finalizar com tomate e orégano', price: 1.50 },
+          ],
+        },
+        {
+          id: 'croissant-ovos-bacon',
+          categoryId: 'salgados',
+          name: 'Croissant Ovos Mexidos & Bacon',
+          description: 'Croissant amanteigado recém-assado recheado com ovos mexidos cremosos, fatias de bacon crocante e cebolinha.',
+          price: 26.90,
+          image: 'https://images.unsplash.com/photo-1771285119308-c1222ed84022?w=600&q=80&auto=format&fit=crop',
+          tags: ['Mais pedido'],
+          addons: [
+            { id: 'cheddar', name: 'Adicionar queijo cheddar cremoso', price: 4.00 },
+            { id: 'sem-bacon', name: 'Substituir bacon por queijo minas', price: 0 },
+          ],
+        },
+        {
+          id: 'sanduiche-sourdough',
+          categoryId: 'salgados',
+          name: 'Sanduíche Sourdough & Patês',
+          description: 'Fatias tostadas de fermentação natural com pasta de grão-de-bico, tomate confit e molhos artesanais da casa.',
+          price: 23.00,
+          image: 'https://images.unsplash.com/photo-1779542949439-3048b97f75d4?w=600&q=80&auto=format&fit=crop',
+          tags: ['Vegano', 'Artesanal'],
+          addons: [
+            { id: 'azeite-ervas', name: 'Regar com azeite trufado', price: 4.00 },
+            { id: 'cortar-meio', name: 'Cortado em triângulos', price: 0 },
+          ],
+        },
+
+        // 4. CAFÉS & BEBIDAS
+        {
+          id: 'cappuccino-cremoso',
+          categoryId: 'cafes',
+          name: 'Cappuccino Cremoso (240ml)',
+          description: 'Espresso duplo 100% arábica de torra média, leite vaporizado aveludado e toque de cacau belga com canela.',
+          price: 14.50,
+          image: 'https://images.unsplash.com/photo-1553962311-62f2471b159d?w=600&q=80&auto=format&fit=crop',
+          tags: ['Mais pedido'],
+          addons: [
+            { id: 'sem-acucar', name: 'Sem açúcar (enviar adoçante à parte)', price: 0 },
+            { id: 'leite-aveia', name: 'Preparar com leite vegetal de aveia', price: 4.50 },
+            { id: 'borda-choc', name: 'Borda com creme de avelã', price: 4.00 },
+          ],
+        },
+        {
+          id: 'latte-especial',
+          categoryId: 'cafes',
+          name: 'Latte Macchiato da Casa (300ml)',
+          description: 'Grãos especiais da Serra da Mantiqueira combinados com microespuma de leite cremoso e notas de caramelo.',
+          price: 15.90,
+          image: 'https://images.unsplash.com/photo-1695962841523-b48c69073eaf?w=600&q=80&auto=format&fit=crop',
+          tags: ['Artesanal'],
+          addons: [
+            { id: 'sem-acucar', name: 'Sem açúcar', price: 0 },
+            { id: 'dose-extra', name: 'Dose extra de espresso', price: 4.50 },
+          ],
+        },
+        {
+          id: 'iced-coffee-cold-brew',
+          categoryId: 'cafes',
+          name: 'Cold Brew Gelado (350ml)',
+          description: 'Café extraído a frio por 16 horas para máxima doçura natural e baixa acidez, servido bem gelado com cubos de gelo.',
+          price: 16.50,
+          image: 'https://images.unsplash.com/photo-1772030423129-5dfc22c4f213?w=600&q=80&auto=format&fit=crop',
+          tags: ['Vegano'],
+          addons: [
+            { id: 'leite-aveia', name: 'Adicionar toque de leite de aveia', price: 3.50 },
+            { id: 'laranja', name: 'Rodelinha de laranja Bahia', price: 1.50 },
+          ],
+        },
+        {
+          id: 'suco-natural-cafe',
+          categoryId: 'cafes',
+          name: 'Suco de Laranja & Café Coado',
+          description: 'Suco de laranja espremido na hora (300ml) acompanhado de jarra individual de café coado V60 (250ml).',
+          price: 19.90,
+          image: 'https://images.unsplash.com/photo-1793597726270-b02d671252aa?w=600&q=80&auto=format&fit=crop',
+          tags: ['Vegano'],
+          addons: [
+            { id: 'sem-gelo', name: 'Suco sem gelo e sem açúcar', price: 0 },
+          ],
+        },
+
+        // 5. KITS CAFÉ DA MANHÃ
+        {
+          id: 'kit-despertar',
+          categoryId: 'kits',
+          name: 'Kit Despertar Individual',
+          description: '1 Misto Quente ou Pão na Chapa, 1 Croissant amanteigado, 1 fatia de bolo caseiro e 1 Cappuccino cremoso.',
+          price: 49.90,
+          image: 'https://images.unsplash.com/photo-1735035569581-f3657c288ecc?w=600&q=80&auto=format&fit=crop',
+          tags: ['Mais pedido'],
+          addons: [
+            { id: 'requeijao', name: 'Incluir potinho de requeijão', price: 3.00 },
+            { id: 'bilhete', name: 'Cartão com mensagem personalizada', price: 0 },
+          ],
+        },
+        {
+          id: 'cesta-dois',
+          categoryId: 'kits',
+          name: 'Cesta Trigo Dourado para Dois',
+          description: 'Baguete crocante, 2 croissants, frios selecionados, manteiga, geleia artesanal, 2 sonhos e 2 lattes especiais.',
+          price: 98.00,
+          image: 'https://images.unsplash.com/photo-1667335625879-6be3aa501267?w=600&q=80&auto=format&fit=crop',
+          tags: ['Artesanal'],
+          addons: [
+            { id: 'embalagem-presente', name: 'Laço de fita rústica para presente', price: 5.00 },
+            { id: 'bilhete', name: 'Cartão com dedicatória', price: 0 },
+          ],
+        },
+        {
+          id: 'box-brunch-frutas',
+          categoryId: 'kits',
+          name: 'Box Brunch & Frutas Frescas',
+          description: 'Seleção festiva de folhados doces, waffles artesanais, morangos frescos, uvas e macarons finos.',
+          price: 124.00,
+          image: 'https://images.unsplash.com/photo-1766238955595-a1aed45faf9a?w=600&q=80&auto=format&fit=crop',
+          tags: ['Mais pedido', 'Artesanal'],
+          addons: [
+            { id: 'suco-500', name: 'Adicionar Suco de Laranja (500ml)', price: 12.00 },
+            { id: 'bilhete', name: 'Cartão personalizado', price: 0 },
+          ],
+        },
+        {
+          id: 'kit-lanche-familia',
+          categoryId: 'kits',
+          name: 'Kit Lanche da Tarde da Família',
+          description: '6 pães franceses quentinhos, 4 coxinhas de frango com Catupiry, 1 pão brioche inteiro e 500ml de café coado.',
+          price: 84.90,
+          image: 'https://images.unsplash.com/photo-1676300187476-fa0723ba0377?w=600&q=80&auto=format&fit=crop',
+          tags: ['Saiu do forno'],
+          addons: [
+            { id: 'pao-queijo', name: 'Adicionar 10 pães de queijo quentinhos', price: 18.00 },
+          ],
+        },
+      ];
+
+      // =========================================================
+      // ESTADO DA APLICAÇÃO
+      // =========================================================
+      const state = {
+        searchQuery: '',
+        activeCategory: CATEGORIES[0].id,
+        selectedProduct: null,
+        modalQty: 1,
+        cart: [], // { uid, productId, name, image, unitPrice, addons: [{id,name,price}], obs, qty }
+        deliveryMode: 'delivery', // 'delivery' | 'pickup'
+        paymentMethod: 'Pix', // 'Pix' | 'Cartão' | 'Dinheiro'
+        customerName: '',
+        customerAddress: '',
+        cashChange: '',
+      };
+
+      // =========================================================
+      // ELEMENTOS DO DOM
+      // =========================================================
+      const els = {
+        categoryTabs: document.getElementById('category-tabs'),
+        catalogContainer: document.getElementById('catalog-container'),
+        searchInput: document.getElementById('search-input'),
+        btnClearSearch: document.getElementById('btn-clear-search'),
+        searchStatus: document.getElementById('search-status'),
+        searchStatusText: document.getElementById('search-status-text'),
+        btnResetSearchBanner: document.getElementById('btn-reset-search-banner'),
+        emptySearchState: document.getElementById('empty-search-state'),
+        btnEmptyReset: document.getElementById('btn-empty-reset'),
+
+        // Product Modal
+        productModal: document.getElementById('product-modal'),
+        productModalBackdrop: document.getElementById('product-modal-backdrop'),
+        btnCloseProductModal: document.getElementById('btn-close-product-modal'),
+        modalProductImg: document.getElementById('modal-product-img'),
+        modalProductTags: document.getElementById('modal-product-tags'),
+        modalProductCategory: document.getElementById('modal-product-category'),
+        modalProductTitle: document.getElementById('modal-product-title'),
+        modalProductBasePrice: document.getElementById('modal-product-base-price'),
+        modalProductDesc: document.getElementById('modal-product-desc'),
+        modalAddonsSection: document.getElementById('modal-addons-section'),
+        modalAddonsList: document.getElementById('modal-addons-list'),
+        modalProductObs: document.getElementById('modal-product-obs'),
+        modalQtyMinus: document.getElementById('modal-qty-minus'),
+        modalQtyPlus: document.getElementById('modal-qty-plus'),
+        modalQtyValue: document.getElementById('modal-qty-value'),
+        btnAddToCart: document.getElementById('btn-add-to-cart'),
+        modalTotalBtnPrice: document.getElementById('modal-total-btn-price'),
+
+        // Floating Cart Bar
+        floatingCartBar: document.getElementById('floating-cart-bar'),
+        btnOpenCart: document.getElementById('btn-open-cart'),
+        cartBarCount: document.getElementById('cart-bar-count'),
+        cartBarItemsLabel: document.getElementById('cart-bar-items-label'),
+        cartBarTotal: document.getElementById('cart-bar-total'),
+
+        // Cart Drawer
+        cartDrawer: document.getElementById('cart-drawer'),
+        cartDrawerBackdrop: document.getElementById('cart-drawer-backdrop'),
+        btnCloseCart: document.getElementById('btn-close-cart'),
+        btnClearCart: document.getElementById('btn-clear-cart'),
+        cartEmptyState: document.getElementById('cart-empty-state'),
+        cartItemsSection: document.getElementById('cart-items-section'),
+        cartCheckoutForm: document.getElementById('cart-checkout-form'),
+        cartDrawerFooter: document.getElementById('cart-drawer-footer'),
+        customerName: document.getElementById('customer-name'),
+        customerAddress: document.getElementById('customer-address'),
+        addressFieldWrapper: document.getElementById('address-field-wrapper'),
+        cashChangeWrapper: document.getElementById('cash-change-wrapper'),
+        cashChange: document.getElementById('cash-change'),
+        drawerSubtotal: document.getElementById('drawer-subtotal'),
+        drawerFeeLabel: document.getElementById('drawer-fee-label'),
+        drawerFeeValue: document.getElementById('drawer-fee-value'),
+        drawerTotal: document.getElementById('drawer-total'),
+        btnFinishWhatsapp: document.getElementById('btn-finish-whatsapp'),
+
+        // Info Modal
+        infoModal: document.getElementById('info-modal'),
+        infoModalBackdrop: document.getElementById('info-modal-backdrop'),
+        btnOpenInfo: document.getElementById('btn-open-info'),
+        btnCloseInfo: document.getElementById('btn-close-info'),
+        btnCloseInfoFooter: document.getElementById('btn-close-info-footer'),
+
+        // WhatsApp Modal
+        whatsappModal: document.getElementById('whatsapp-modal'),
+        whatsappModalBackdrop: document.getElementById('whatsapp-modal-backdrop'),
+        btnCloseWaModal: document.getElementById('btn-close-wa-modal'),
+        waPreviewView: document.getElementById('wa-preview-view'),
+        waSuccessView: document.getElementById('wa-success-view'),
+        waMessagePreview: document.getElementById('wa-message-preview'),
+        waExternalLink: document.getElementById('wa-external-link'),
+        btnSimulateSent: document.getElementById('btn-simulate-sent'),
+        btnFinishDemoReset: document.getElementById('btn-finish-demo-reset'),
+
+        // Demo Simulate
+        btnSimulateOrder: document.getElementById('btn-simulate-order'),
+        toastContainer: document.getElementById('toast-container'),
+      };
+
+      // =========================================================
+      // UTILITÁRIOS
+      // =========================================================
+      function formatBRL(value) {
+        return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+      }
+
+      function normalizeText(str) {
+        return str
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '');
+      }
+
+      function getTagBadgeStyle(tag) {
+        switch (tag) {
+          case 'Mais pedido':
+            return 'bg-terracotta-500 text-white';
+          case 'Saiu do forno':
+            return 'bg-amber-100 text-amber-900 border border-amber-300';
+          case 'Vegano':
+            return 'bg-emerald-100 text-emerald-800 border border-emerald-200';
+          default:
+            return 'bg-cream-100 text-espresso-800 border border-cream-300';
+        }
+      }
+
+      function getTagIcon(tag) {
+        switch (tag) {
+          case 'Mais pedido':
+            return 'fa-solid fa-fire';
+          case 'Saiu do forno':
+            return 'fa-solid fa-temperature-high';
+          case 'Vegano':
+            return 'fa-solid fa-leaf';
+          default:
+            return 'fa-solid fa-award';
+        }
+      }
+
+      function lockBodyScroll(lock) {
+        document.body.style.overflow = lock ? 'hidden' : '';
+      }
+
+      function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        const bgClass =
+          type === 'error'
+            ? 'bg-red-600 text-white'
+            : 'bg-espresso-900 text-white border border-espresso-700';
+        const iconClass = type === 'error' ? 'fa-solid fa-circle-exclamation' : 'fa-solid fa-circle-check text-emerald-400';
+
+        toast.className = `${bgClass} pointer-events-auto shadow-xl rounded-xl px-4 py-3 text-sm font-medium flex items-center gap-2.5 animate-slide-up max-w-xs`;
+        toast.innerHTML = `<i class="${iconClass}"></i><span>${message}</span>`;
+
+        els.toastContainer.appendChild(toast);
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(-8px)';
+          toast.style.transition = 'all 0.2s ease';
+          setTimeout(() => toast.remove(), 220);
+        }, 2800);
+      }
+
+      function saveCartToStorage() {
+        try {
+          localStorage.setItem('trigo_dourado_cart_v1', JSON.stringify(state.cart));
+        } catch (_) {
+          // Ignora caso localStorage esteja bloqueado
+        }
+      }
+
+      function loadCartFromStorage() {
+        try {
+          const raw = localStorage.getItem('trigo_dourado_cart_v1');
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) state.cart = parsed;
+          }
+        } catch (_) {
+          state.cart = [];
+        }
+      }
+
+      // =========================================================
+      // RENDERIZAÇÃO DE CATEGORIAS E CATÁLOGO
+      // =========================================================
+      function renderCategoryTabs() {
+        els.categoryTabs.innerHTML = CATEGORIES.map((cat) => {
+          const isActive = state.activeCategory === cat.id;
+          return `
+            <button
+              type="button"
+              data-cat-tab="${cat.id}"
+              class="shrink-0 inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-xs sm:text-sm font-semibold transition cursor-pointer ${
+                isActive
+                  ? 'bg-espresso-900 text-white shadow-sm'
+                  : 'bg-white text-espresso-800 border border-cream-200 hover:bg-cream-100'
+              }"
+            >
+              <i class="${cat.icon} ${isActive ? 'text-terracotta-500' : 'text-espresso-700/70'}"></i>
+              <span>${cat.name}</span>
+            </button>
+          `;
+        }).join('');
+      }
+
+      function renderCatalog() {
+        const query = normalizeText(state.searchQuery.trim());
+        let totalFound = 0;
+
+        const sectionsHtml = CATEGORIES.map((cat) => {
+          const items = PRODUCTS.filter((p) => {
+            if (p.categoryId !== cat.id) return false;
+            if (!query) return true;
+            const haystack = normalizeText(`${p.name} ${p.description} ${p.tags.join(' ')}`);
+            return haystack.includes(query);
+          });
+
+          if (items.length === 0) return '';
+          totalFound += items.length;
+
+          const cardsHtml = items
+            .map((product) => {
+              const tagsHtml = product.tags
+                .map(
+                  (tag) => `
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${getTagBadgeStyle(tag)}">
+                    <i class="${getTagIcon(tag)}"></i> ${tag}
+                  </span>`
+                )
+                .join('');
+
+              return `
+                <article
+                  data-product-id="${product.id}"
+                  tabindex="0"
+                  role="button"
+                  aria-label="Ver detalhes de ${product.name}, ${formatBRL(product.price)}"
+                  class="product-card group bg-white rounded-2xl border border-cream-200 hover:border-terracotta-500/50 hover:shadow-md p-3.5 sm:p-4 flex gap-3.5 sm:gap-4 transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-terracotta-500"
+                >
+                  <div class="flex-1 min-w-0 flex flex-col justify-between">
+                    <div>
+                      <div class="flex flex-wrap gap-1.5 mb-1.5">${tagsHtml}</div>
+                      <h3 class="font-sans text-base sm:text-lg font-bold text-espresso-950 group-hover:text-terracotta-600 transition leading-snug">
+                        ${product.name}
+                      </h3>
+                      <p class="text-xs sm:text-sm text-espresso-700 mt-1 line-clamp-2 leading-relaxed">
+                        ${product.description}
+                      </p>
+                    </div>
+
+                    <div class="mt-3 flex items-center justify-between gap-2">
+                      <span class="text-base sm:text-lg font-bold text-espresso-900">
+                        ${formatBRL(product.price)}
+                      </span>
+                      <span class="inline-flex items-center gap-1 text-xs font-bold text-terracotta-600 bg-terracotta-50 group-hover:bg-terracotta-500 group-hover:text-white px-2.5 py-1 rounded-lg transition">
+                        <i class="fa-solid fa-plus text-[10px]"></i> Pedir
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden bg-cream-100 shrink-0 self-center">
+                    <img
+                      src="${product.image}"
+                      alt="${product.name}"
+                      loading="lazy"
+                      onerror="this.src='${FALLBACK_IMG}'"
+                      class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                    />
+                  </div>
+                </article>
+              `;
+            })
+            .join('');
+
+          return `
+            <section id="cat-${cat.id}" data-category-section="${cat.id}" class="scroll-mt-32">
+              <div class="flex items-center gap-2.5 mb-4">
+                <span class="w-9 h-9 rounded-xl bg-espresso-900 text-amber-300 flex items-center justify-center text-sm shadow-xs">
+                  <i class="${cat.icon}"></i>
+                </span>
+                <div>
+                  <h2 class="text-xl sm:text-2xl font-bold text-espresso-950 leading-none">${cat.name}</h2>
+                  <p class="text-xs text-espresso-700 mt-1">${items.length} ${items.length === 1 ? 'opção disponível' : 'opções disponíveis'}</p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
+                ${cardsHtml}
+              </div>
+            </section>
+          `;
+        }).join('');
+
+        els.catalogContainer.innerHTML = sectionsHtml;
+
+        if (query) {
+          els.searchStatus.classList.remove('hidden');
+          els.searchStatusText.innerHTML = `Exibindo <strong>${totalFound}</strong> ${
+            totalFound === 1 ? 'resultado' : 'resultados'
+          } para "<strong>${state.searchQuery.trim()}</strong>"`;
+        } else {
+          els.searchStatus.classList.add('hidden');
+        }
+
+        if (totalFound === 0) {
+          els.emptySearchState.classList.remove('hidden');
+        } else {
+          els.emptySearchState.classList.add('hidden');
+        }
+      }
+
+      // =========================================================
+      // MODAL DE DETALHES DO PRODUTO
+      // =========================================================
+      function openProductModal(productId) {
+        const product = PRODUCTS.find((p) => p.id === productId);
+        if (!product) return;
+
+        const category = CATEGORIES.find((c) => c.id === product.categoryId);
+        state.selectedProduct = product;
+        state.modalQty = 1;
+
+        els.modalProductImg.src = product.image;
+        els.modalProductImg.alt = product.name;
+        els.modalProductImg.onerror = function () {
+          this.src = FALLBACK_IMG;
+        };
+
+        els.modalProductCategory.textContent = category ? category.name : '';
+        els.modalProductTitle.textContent = product.name;
+        els.modalProductBasePrice.textContent = formatBRL(product.price);
+        els.modalProductDesc.textContent = product.description;
+        els.modalProductObs.value = '';
+        els.modalQtyValue.textContent = '1';
+
+        els.modalProductTags.innerHTML = product.tags
+          .map(
+            (tag) => `
+            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold shadow-sm ${getTagBadgeStyle(tag)}">
+              <i class="${getTagIcon(tag)}"></i> ${tag}
+            </span>`
+          )
+          .join('');
+
+        if (product.addons && product.addons.length > 0) {
+          els.modalAddonsSection.classList.remove('hidden');
+          els.modalAddonsList.innerHTML = product.addons
+            .map(
+              (addon) => `
+              <label class="flex items-center justify-between gap-3 p-3 rounded-xl border border-cream-200 hover:border-terracotta-500/40 bg-cream-50/50 cursor-pointer transition">
+                <div class="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    value="${addon.id}"
+                    data-addon-price="${addon.price}"
+                    data-addon-name="${addon.name}"
+                    class="modal-addon-checkbox w-4 h-4 accent-[#C85A32] rounded cursor-pointer"
+                  />
+                  <span class="text-sm text-espresso-900 font-medium">${addon.name}</span>
+                </div>
+                <span class="text-xs font-bold ${addon.price > 0 ? 'text-terracotta-600' : 'text-emerald-700'} shrink-0">
+                  ${addon.price > 0 ? `+ ${formatBRL(addon.price)}` : 'Grátis'}
+                </span>
+              </label>
+            `
+            )
+            .join('');
+        } else {
+          els.modalAddonsSection.classList.add('hidden');
+          els.modalAddonsList.innerHTML = '';
+        }
+
+        updateProductModalTotal();
+        els.productModal.classList.remove('hidden');
+        lockBodyScroll(true);
+      }
+
+      function closeProductModal() {
+        els.productModal.classList.add('hidden');
+        state.selectedProduct = null;
+        lockBodyScroll(false);
+      }
+
+      function getSelectedModalAddons() {
+        const checkboxes = els.modalAddonsList.querySelectorAll('.modal-addon-checkbox:checked');
+        return Array.from(checkboxes).map((cb) => ({
+          id: cb.value,
+          name: cb.dataset.addonName,
+          price: parseFloat(cb.dataset.addonPrice) || 0,
+        }));
+      }
+
+      function updateProductModalTotal() {
+        if (!state.selectedProduct) return;
+        const addons = getSelectedModalAddons();
+        const addonsSum = addons.reduce((acc, a) => acc + a.price, 0);
+        const total = (state.selectedProduct.price + addonsSum) * state.modalQty;
+        els.modalTotalBtnPrice.textContent = formatBRL(total);
+      }
+
+      function handleAddSelectedToCart() {
+        if (!state.selectedProduct) return;
+        const product = state.selectedProduct;
+        const addons = getSelectedModalAddons();
+        const obs = els.modalProductObs.value.trim();
+        const addonsSum = addons.reduce((acc, a) => acc + a.price, 0);
+        const unitPrice = product.price + addonsSum;
+
+        // Gera chave única considerando adicionais e observação
+        const addonIdsKey = addons.map((a) => a.id).sort().join('|');
+        const existingIndex = state.cart.findIndex(
+          (item) =>
+            item.productId === product.id &&
+            item.addonIdsKey === addonIdsKey &&
+            item.obs.toLowerCase() === obs.toLowerCase()
+        );
+
+        if (existingIndex > -1) {
+          state.cart[existingIndex].qty += state.modalQty;
+        } else {
+          state.cart.push({
+            uid: `${product.id}-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+            productId: product.id,
+            name: product.name,
+            image: product.image,
+            unitPrice,
+            addons,
+            addonIdsKey,
+            obs,
+            qty: state.modalQty,
+          });
+        }
+
+        saveCartToStorage();
+        updateCartUI();
+        closeProductModal();
+        showToast(`${product.name} adicionado ao pedido!`);
+      }
+
+      // =========================================================
+      // CARRINHO E CHECKOUT
+      // =========================================================
+      function getCartTotals() {
+        const totalItems = state.cart.reduce((sum, item) => sum + item.qty, 0);
+        const subtotal = state.cart.reduce((sum, item) => sum + item.unitPrice * item.qty, 0);
+        const fee = state.cart.length > 0 && state.deliveryMode === 'delivery' ? DELIVERY_FEE : 0;
+        const total = subtotal + fee;
+        return { totalItems, subtotal, fee, total };
+      }
+
+      function updateCartUI() {
+        const { totalItems, subtotal, fee, total } = getCartTotals();
+
+        // Barra inferior flutuante
+        els.cartBarCount.textContent = totalItems;
+        els.cartBarItemsLabel.textContent =
+          totalItems === 1 ? '1 item na sacola' : `${totalItems} itens na sacola`;
+        els.cartBarTotal.textContent = formatBRL(subtotal);
+
+        if (totalItems > 0) {
+          els.floatingCartBar.classList.remove('translate-y-full');
+        } else {
+          els.floatingCartBar.classList.add('translate-y-full');
+        }
+
+        // Conteúdo do Drawer
+        if (state.cart.length === 0) {
+          els.cartEmptyState.classList.remove('hidden');
+          els.cartItemsSection.classList.add('hidden');
+          els.cartCheckoutForm.classList.add('hidden');
+          els.cartDrawerFooter.classList.add('hidden');
+          els.btnClearCart.classList.add('hidden');
+        } else {
+          els.cartEmptyState.classList.add('hidden');
+          els.cartItemsSection.classList.remove('hidden');
+          els.cartCheckoutForm.classList.remove('hidden');
+          els.cartDrawerFooter.classList.remove('hidden');
+          els.btnClearCart.classList.remove('hidden');
+        }
+
+        els.cartItemsSection.innerHTML = state.cart
+          .map((item) => {
+            const addonsLine =
+              item.addons && item.addons.length > 0
+                ? `<p class="text-[11px] text-espresso-700 mt-0.5">+ ${item.addons.map((a) => a.name).join(', ')}</p>`
+                : '';
+            const obsLine = item.obs
+              ? `<p class="text-[11px] text-terracotta-700 bg-terracotta-50 px-2 py-0.5 rounded-md mt-1 inline-block"><i class="fa-regular fa-comment-dots mr-1"></i>${item.obs}</p>`
+              : '';
+
+            return `
+              <div class="bg-white rounded-2xl border border-cream-200 p-3 flex gap-3 items-start">
+                <img
+                  src="${item.image}"
+                  alt="${item.name}"
+                  onerror="this.src='${FALLBACK_IMG}'"
+                  class="w-16 h-16 rounded-xl object-cover bg-cream-100 shrink-0"
+                />
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-start justify-between gap-2">
+                    <h4 class="font-sans text-sm font-bold text-espresso-950 leading-snug">${item.name}</h4>
+                    <button
+                      type="button"
+                      data-remove-uid="${item.uid}"
+                      aria-label="Remover ${item.name}"
+                      class="text-espresso-700/50 hover:text-red-600 p-0.5 transition cursor-pointer"
+                    >
+                      <i class="fa-regular fa-trash-can text-xs"></i>
+                    </button>
+                  </div>
+                  ${addonsLine}
+                  ${obsLine}
+                  <div class="mt-2.5 flex items-center justify-between">
+                    <span class="text-sm font-bold text-espresso-900">${formatBRL(item.unitPrice * item.qty)}</span>
+                    <div class="flex items-center bg-cream-100 rounded-lg border border-cream-200">
+                      <button
+                        type="button"
+                        data-cart-dec="${item.uid}"
+                        aria-label="Diminuir quantidade"
+                        class="w-7 h-7 flex items-center justify-center text-espresso-900 hover:text-terracotta-600 cursor-pointer"
+                      >
+                        <i class="fa-solid fa-minus text-[10px]"></i>
+                      </button>
+                      <span class="w-6 text-center text-xs font-bold text-espresso-950">${item.qty}</span>
+                      <button
+                        type="button"
+                        data-cart-inc="${item.uid}"
+                        aria-label="Aumentar quantidade"
+                        class="w-7 h-7 flex items-center justify-center text-espresso-900 hover:text-terracotta-600 cursor-pointer"
+                      >
+                        <i class="fa-solid fa-plus text-[10px]"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+          })
+          .join('');
+
+        // Botões de modalidade de entrega
+        document.querySelectorAll('.delivery-mode-btn').forEach((btn) => {
+          const active = btn.dataset.deliveryMode === state.deliveryMode;
+          btn.className = `delivery-mode-btn flex flex-col items-start p-3 rounded-xl border-2 text-left transition cursor-pointer ${
+            active
+              ? 'border-terracotta-500 bg-terracotta-50 text-espresso-950'
+              : 'border-cream-200 bg-cream-50/50 text-espresso-700 hover:border-cream-300'
+          }`;
+        });
+
+        if (state.deliveryMode === 'delivery') {
+          els.addressFieldWrapper.classList.remove('hidden');
+          els.drawerFeeLabel.textContent = 'Taxa de entrega (Delivery)';
+          els.drawerFeeValue.textContent = formatBRL(fee);
+          els.drawerFeeValue.className = 'text-espresso-800 font-medium';
+        } else {
+          els.addressFieldWrapper.classList.add('hidden');
+          els.drawerFeeLabel.textContent = 'Retirada no balcão';
+          els.drawerFeeValue.textContent = 'Grátis';
+          els.drawerFeeValue.className = 'text-emerald-700 font-bold';
+        }
+
+        // Botões de pagamento
+        document.querySelectorAll('.payment-btn').forEach((btn) => {
+          const active = btn.dataset.payment === state.paymentMethod;
+          btn.className = `payment-btn py-2.5 px-2 rounded-xl border-2 text-xs font-bold flex flex-col items-center gap-1 transition cursor-pointer ${
+            active
+              ? 'border-terracotta-500 bg-terracotta-50 text-terracotta-700'
+              : 'border-cream-200 bg-cream-50/50 text-espresso-700 hover:border-cream-300'
+          }`;
+        });
+
+        if (state.paymentMethod === 'Dinheiro') {
+          els.cashChangeWrapper.classList.remove('hidden');
+        } else {
+          els.cashChangeWrapper.classList.add('hidden');
+        }
+
+        els.drawerSubtotal.textContent = formatBRL(subtotal);
+        els.drawerTotal.textContent = formatBRL(total);
+      }
+
+      function openCartDrawer() {
+        updateCartUI();
+        els.cartDrawer.classList.remove('hidden');
+        lockBodyScroll(true);
+      }
+
+      function closeCartDrawer() {
+        els.cartDrawer.classList.add('hidden');
+        lockBodyScroll(false);
+      }
+
+      // =========================================================
+      // CHECKOUT VIA WHATSAPP
+      // =========================================================
+      function buildWhatsAppMessage() {
+        const { subtotal, fee, total } = getCartTotals();
+        const name = els.customerName.value.trim();
+        const address = els.customerAddress.value.trim();
+        const change = els.cashChange.value.trim();
+
+        const lines = [];
+        lines.push('*🥖 NOVO PEDIDO — TRIGO DOURADO*');
+        lines.push('-----------------------------------');
+        lines.push(`*Cliente:* ${name}`);
+        if (state.deliveryMode === 'delivery') {
+          lines.push(`*Modalidade:* Entrega (Delivery)`);
+          lines.push(`*Endereço:* ${address}`);
+        } else {
+          lines.push(`*Modalidade:* Retirada no Balcão`);
+        }
+        lines.push('');
+        lines.push('*ITENS DO PEDIDO:*');
+
+        state.cart.forEach((item, idx) => {
+          lines.push(`${idx + 1}. *${item.qty}x ${item.name}* — ${formatBRL(item.unitPrice * item.qty)}`);
+          if (item.addons && item.addons.length > 0) {
+            item.addons.forEach((a) => {
+              lines.push(`   + ${a.name}${a.price > 0 ? ` (${formatBRL(a.price)})` : ''}`);
+            });
+          }
+          if (item.obs) {
+            lines.push(`   _Obs: ${item.obs}_`);
+          }
+        });
+
+        lines.push('');
+        lines.push('-----------------------------------');
+        lines.push(`*Subtotal:* ${formatBRL(subtotal)}`);
+        lines.push(
+          state.deliveryMode === 'delivery'
+            ? `*Taxa de entrega:* ${formatBRL(fee)}`
+            : `*Retirada no balcão:* Grátis`
+        );
+        lines.push(`*TOTAL:* *${formatBRL(total)}*`);
+        lines.push(`*Pagamento:* ${state.paymentMethod}${state.paymentMethod === 'Dinheiro' && change ? ` (${change})` : ''}`);
+        lines.push('');
+        lines.push('_Pedido gerado pelo Cardápio Digital (Modo Demonstração)_');
+
+        return lines.join('\n');
+      }
+
+      function handleFinishWhatsapp() {
+        if (state.cart.length === 0) {
+          showToast('Adicione pelo menos um item antes de finalizar.', 'error');
+          return;
+        }
+
+        const name = els.customerName.value.trim();
+        const address = els.customerAddress.value.trim();
+
+        if (!name) {
+          els.customerName.focus();
+          els.customerName.classList.add('border-red-500');
+          showToast('Por favor, informe seu nome completo.', 'error');
+          return;
+        }
+        els.customerName.classList.remove('border-red-500');
+
+        if (state.deliveryMode === 'delivery' && !address) {
+          els.customerAddress.focus();
+          els.customerAddress.classList.add('border-red-500');
+          showToast('Informe o endereço para entrega ou escolha Retirada.', 'error');
+          return;
+        }
+        els.customerAddress.classList.remove('border-red-500');
+
+        const message = buildWhatsAppMessage();
+        const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+        els.waMessagePreview.textContent = message;
+        els.waExternalLink.href = waUrl;
+        els.waPreviewView.classList.remove('hidden');
+        els.waSuccessView.classList.add('hidden');
+
+        closeCartDrawer();
+        els.whatsappModal.classList.remove('hidden');
+        lockBodyScroll(true);
+      }
+
+      function closeWhatsappModal() {
+        els.whatsappModal.classList.add('hidden');
+        lockBodyScroll(false);
+      }
+
+      // =========================================================
+      // BOTÃO DE SIMULAÇÃO DE PEDIDO DE EXEMPLO (MODO DEMO)
+      // =========================================================
+      function simulateDemoOrder() {
+        const p1 = PRODUCTS.find((p) => p.id === 'pao-frances-chapa');
+        const p2 = PRODUCTS.find((p) => p.id === 'croissant-amendoas');
+        const p3 = PRODUCTS.find((p) => p.id === 'cappuccino-cremoso');
+
+        state.cart = [
+          {
+            uid: `demo-1-${Date.now()}`,
+            productId: p1.id,
+            name: p1.name,
+            image: p1.image,
+            unitPrice: p1.price + 3.00,
+            addons: [
+              { id: 'requeijao', name: 'Adicionar requeijão cremoso na chapa', price: 3.00 },
+              { id: 'moreninho', name: 'Pão bem moreninho e crocante', price: 0 },
+            ],
+            addonIdsKey: 'moreninho|requeijao',
+            obs: 'Cortar em dois pedaços, por favor',
+            qty: 2,
+          },
+          {
+            uid: `demo-2-${Date.now()}`,
+            productId: p2.id,
+            name: p2.name,
+            image: p2.image,
+            unitPrice: p2.price,
+            addons: [{ id: 'aquecer', name: 'Enviar levemente aquecido', price: 0 }],
+            addonIdsKey: 'aquecer',
+            obs: '',
+            qty: 1,
+          },
+          {
+            uid: `demo-3-${Date.now()}`,
+            productId: p3.id,
+            name: p3.name,
+            image: p3.image,
+            unitPrice: p3.price,
+            addons: [{ id: 'sem-acucar', name: 'Sem açúcar (enviar adoçante à parte)', price: 0 }],
+            addonIdsKey: 'sem-acucar',
+            obs: 'Caprichar na canela',
+            qty: 1,
+          },
+        ];
+
+        state.deliveryMode = 'delivery';
+        state.paymentMethod = 'Pix';
+        els.customerName.value = 'Ana Beatriz Souza (Cliente Demo)';
+        els.customerAddress.value = 'Rua dos Pinheiros, 710, Apto 42 — Pinheiros';
+        els.cashChange.value = '';
+
+        saveCartToStorage();
+        updateCartUI();
+        openCartDrawer();
+        showToast('Pedido de exemplo preenchido automaticamente!');
+      }
+
+      // =========================================================
+      // MODAIS AUXILIARES & SCROLL SPY
+      // =========================================================
+      function openInfoModal() {
+        els.infoModal.classList.remove('hidden');
+        lockBodyScroll(true);
+      }
+
+      function closeInfoModal() {
+        els.infoModal.classList.add('hidden');
+        lockBodyScroll(false);
+      }
+
+      function setupScrollSpy() {
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(() => {
+            const sections = document.querySelectorAll('[data-category-section]');
+            const offset = 165;
+            let currentId = state.activeCategory;
+
+            sections.forEach((sec) => {
+              const top = sec.getBoundingClientRect().top;
+              if (top <= offset) {
+                currentId = sec.dataset.categorySection;
+              }
+            });
+
+            if (currentId !== state.activeCategory) {
+              state.activeCategory = currentId;
+              renderCategoryTabs();
+              const activeBtn = els.categoryTabs.querySelector(`[data-cat-tab="${currentId}"]`);
+              if (activeBtn) {
+                activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+              }
+            }
+            ticking = false;
+          });
+        });
+      }
+
+      // =========================================================
+      // EVENT LISTENERS
+      // =========================================================
+      function bindEvents() {
+        // Simular pedido de exemplo
+        els.btnSimulateOrder.addEventListener('click', simulateDemoOrder);
+
+        // Busca em tempo real
+        els.searchInput.addEventListener('input', (e) => {
+          state.searchQuery = e.target.value;
+          els.btnClearSearch.classList.toggle('hidden', !state.searchQuery);
+          renderCatalog();
+        });
+
+        const clearSearch = () => {
+          state.searchQuery = '';
+          els.searchInput.value = '';
+          els.btnClearSearch.classList.add('hidden');
+          renderCatalog();
+        };
+
+        els.btnClearSearch.addEventListener('click', clearSearch);
+        els.btnResetSearchBanner.addEventListener('click', clearSearch);
+        els.btnEmptyReset.addEventListener('click', clearSearch);
+
+        // Navegação nas abas de categorias
+        els.categoryTabs.addEventListener('click', (e) => {
+          const btn = e.target.closest('[data-cat-tab]');
+          if (!btn) return;
+          const catId = btn.dataset.catTab;
+          state.activeCategory = catId;
+          renderCategoryTabs();
+
+          // Limpa busca se a categoria estiver oculta pelo filtro
+          const targetSection = document.getElementById(`cat-${catId}`);
+          if (!targetSection) {
+            clearSearch();
+          }
+          const sectionEl = document.getElementById(`cat-${catId}`);
+          if (sectionEl) {
+            const navHeight = document.getElementById('sticky-nav').offsetHeight + 14;
+            const y = sectionEl.getBoundingClientRect().top + window.scrollY - navHeight;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+          }
+        });
+
+        // Abrir modal de produto ao clicar no card
+        els.catalogContainer.addEventListener('click', (e) => {
+          const card = e.target.closest('.product-card');
+          if (card) openProductModal(card.dataset.productId);
+        });
+        els.catalogContainer.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            const card = e.target.closest('.product-card');
+            if (card) {
+              e.preventDefault();
+              openProductModal(card.dataset.productId);
+            }
+          }
+        });
+
+        // Controles do modal de produto
+        els.btnCloseProductModal.addEventListener('click', closeProductModal);
+        els.productModalBackdrop.addEventListener('click', closeProductModal);
+        els.modalAddonsList.addEventListener('change', updateProductModalTotal);
+
+        els.modalQtyMinus.addEventListener('click', () => {
+          if (state.modalQty > 1) {
+            state.modalQty -= 1;
+            els.modalQtyValue.textContent = state.modalQty;
+            updateProductModalTotal();
+          }
+        });
+
+        els.modalQtyPlus.addEventListener('click', () => {
+          if (state.modalQty < 50) {
+            state.modalQty += 1;
+            els.modalQtyValue.textContent = state.modalQty;
+            updateProductModalTotal();
+          }
+        });
+
+        els.btnAddToCart.addEventListener('click', handleAddSelectedToCart);
+
+        // Barra flutuante e Gaveta do carrinho
+        els.btnOpenCart.addEventListener('click', openCartDrawer);
+        els.btnCloseCart.addEventListener('click', closeCartDrawer);
+        els.cartDrawerBackdrop.addEventListener('click', closeCartDrawer);
+
+        els.btnClearCart.addEventListener('click', () => {
+          state.cart = [];
+          saveCartToStorage();
+          updateCartUI();
+          showToast('Sacola esvaziada.');
+        });
+
+        // Alterar quantidades ou remover item no carrinho
+        els.cartItemsSection.addEventListener('click', (e) => {
+          const incBtn = e.target.closest('[data-cart-inc]');
+          const decBtn = e.target.closest('[data-cart-dec]');
+          const remBtn = e.target.closest('[data-remove-uid]');
+
+          if (incBtn) {
+            const item = state.cart.find((i) => i.uid === incBtn.dataset.cartInc);
+            if (item) item.qty += 1;
+          } else if (decBtn) {
+            const idx = state.cart.findIndex((i) => i.uid === decBtn.dataset.cartDec);
+            if (idx > -1) {
+              if (state.cart[idx].qty > 1) {
+                state.cart[idx].qty -= 1;
+              } else {
+                state.cart.splice(idx, 1);
+              }
+            }
+          } else if (remBtn) {
+            state.cart = state.cart.filter((i) => i.uid !== remBtn.dataset.removeUid);
+          } else {
+            return;
+          }
+
+          saveCartToStorage();
+          updateCartUI();
+        });
+
+        // Seleção de modalidade de entrega e pagamento
+        document.querySelectorAll('.delivery-mode-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            state.deliveryMode = btn.dataset.deliveryMode;
+            updateCartUI();
+          });
+        });
+
+        document.querySelectorAll('.payment-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            state.paymentMethod = btn.dataset.payment;
+            updateCartUI();
+          });
+        });
+
+        // Finalizar no WhatsApp
+        els.btnFinishWhatsapp.addEventListener('click', handleFinishWhatsapp);
+
+        // Modal de Informações da Loja
+        els.btnOpenInfo.addEventListener('click', openInfoModal);
+        els.btnCloseInfo.addEventListener('click', closeInfoModal);
+        els.btnCloseInfoFooter.addEventListener('click', closeInfoModal);
+        els.infoModalBackdrop.addEventListener('click', closeInfoModal);
+
+        // Modal de Prévia / Simulação do WhatsApp
+        els.btnCloseWaModal.addEventListener('click', closeWhatsappModal);
+        els.whatsappModalBackdrop.addEventListener('click', closeWhatsappModal);
+
+        els.btnSimulateSent.addEventListener('click', () => {
+          els.waPreviewView.classList.add('hidden');
+          els.waSuccessView.classList.remove('hidden');
+          state.cart = [];
+          saveCartToStorage();
+          updateCartUI();
+        });
+
+        els.btnFinishDemoReset.addEventListener('click', closeWhatsappModal);
+
+        // Fechar modais/gavetas com a tecla Escape
+        document.addEventListener('keydown', (e) => {
+          if (e.key !== 'Escape') return;
+          if (!els.productModal.classList.contains('hidden')) closeProductModal();
+          if (!els.cartDrawer.classList.contains('hidden')) closeCartDrawer();
+          if (!els.infoModal.classList.contains('hidden')) closeInfoModal();
+          if (!els.whatsappModal.classList.contains('hidden')) closeWhatsappModal();
+        });
+      }
+
+      // =========================================================
+      // INICIALIZAÇÃO
+      // =========================================================
+      function init() {
+        loadCartFromStorage();
+        renderCategoryTabs();
+        renderCatalog();
+        updateCartUI();
+        bindEvents();
+        setupScrollSpy();
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>
